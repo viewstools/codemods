@@ -15,6 +15,7 @@ node codemod-onwhen-to-the-top.js
 node codemod-default-props.js
 node codemod-extract-complex-props-to-logic.js
 node codemod-props-to-slots.js
+node codemod-use-slot-symbol-in-system-scopes.js
 ```
 
 License BSD-3-Clause
