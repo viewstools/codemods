@@ -16,6 +16,8 @@ node codemod-default-props.js
 node codemod-extract-complex-props-to-logic.js
 node codemod-props-to-slots.js
 node codemod-use-slot-symbol-in-system-scopes.js
+# v12.0.8
+node codemod-shadowRadius-to-shadowBlur.js
 ```
 
 License BSD-3-Clause
