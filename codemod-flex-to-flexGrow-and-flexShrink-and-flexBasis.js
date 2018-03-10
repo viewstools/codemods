@@ -11,6 +11,7 @@ function transform(rtext) {
     if (line.startsWith('flex ')) {
       next.push(line.replace('flex ', 'flexGrow '))
       next.push('flexShrink 1')
+      next.push('flexBasis 0%')
     } else {
       next.push(line)
     }
