@@ -1,23 +1,37 @@
 const glob = require('fast-glob')
 const fs = require('fs')
 
+const UNSUPPORTED_TRANSFORMS = [
+  'perspective',
+  'scaleX',
+  'scaleY',
+  'scaleZ',
+  'translateZ',
+  'transformOriginZ',
+]
+
+const isUnsupported = name => UNSUPPORTED_TRANSFORMS.includes(name)
+
 const composeNewLines = line => {
   const name = line.split('(')[0]
-  const values = line.match(/\(([^)]+)\)/)[1].split(/,\s|,/)
-  const axes = ['X', 'Y', 'Z']
+  if (isUnsupported(name)) return
 
-  return values
-    .map((val, j) => {
-      const lastItem = j === values.length - 1
-      return lastItem
-        ? `${name}${axes[j]} ${val}`
-        : `${name}${axes[j]} ${val}\n`
-    })
-    .join('')
+  let replacement
+  const values = line.match(/\(([^)]+)\)/)[1].split(/,\s|,/)
+  if (name === 'rotateZ') {
+    replacement = `rotate ${values[0]}`
+  } else if (values.length === 1) {
+    replacement = `${name} ${values[0]}`
+  } else {
+    const axes = ['X', 'Y']
+    replacement = axes
+      .map((axis, j) => `${name}${axis} ${values[j]}`)
+      .join('\n')
+  }
+  return replacement
 }
 
 function transform(rtext) {
-  console.log('hey im inside', rtext)
   const text = rtext.replace(/\r\n/g, '\n')
   const lines = text.split('\n').map(line => line.trim())
 
@@ -31,7 +45,8 @@ function transform(rtext) {
     }
   })
 
-  return next.join('\n')
+  //filtering out empty lines
+  return next.filter(n => n).join('\n')
 }
 
 glob(['src/**/*.view'], {
