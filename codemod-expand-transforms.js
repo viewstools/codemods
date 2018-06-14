@@ -12,41 +12,48 @@ const UNSUPPORTED_TRANSFORMS = [
 
 const isUnsupported = name => UNSUPPORTED_TRANSFORMS.includes(name)
 
-const composeNewLines = line => {
+const composeTransformNewLines = line => {
   const name = line.split('(')[0]
-  if (isUnsupported(name)) return
+  if (isUnsupported(name)) return line
 
-  let replacement
-  const values = line.match(/\(([^)]+)\)/)[1].split(/,\s|,/)
+  const valuesMatch = line.match(/\(([^)]+)\)/)
+  if (!valuesMatch) return line
+
+  const values = valuesMatch[1].split(/,\s|,/)
   if (name === 'rotateZ') {
-    replacement = `rotate ${values[0]}`
+    return `rotate ${values[0]}`
   } else if (values.length === 1) {
-    replacement = `${name} ${values[0]}`
+    return `${name} ${values[0]}`
   } else {
     const axes = ['X', 'Y']
-    replacement = axes
-      .map((axis, j) => `${name}${axis} ${values[j]}`)
-      .join('\n')
+    return axes.map((axis, j) => `${name}${axis} ${values[j]}`).join('\n')
   }
-  return replacement
+}
+
+const composeTransformOriginNewLines = line => {
+  if (line.startsWith('<')) {
+    const [x, y] = line.replace('< ').split(' ')
+    return `transformOriginX < ${x}\ntransformOriginY < ${y}`
+  } else {
+    const [x, y] = line.split(' ')
+    return `transformOriginX ${x}\ntransformOriginY ${y}`
+  }
 }
 
 function transform(rtext) {
   const text = rtext.replace(/\r\n/g, '\n')
   const lines = text.split('\n').map(line => line.trim())
 
-  const next = []
-
-  lines.forEach(line => {
-    if (line.startsWith('transform ')) {
-      next.push(composeNewLines(line.split('transform ')[1]))
-    } else {
-      next.push(line)
-    }
-  })
-
-  //filtering out empty lines
-  return next.filter(n => n).join('\n')
+  return lines
+    .map(
+      line =>
+        line.startsWith('transform ')
+          ? composeTransformNewLines(line.split('transform ')[1])
+          : line.startsWith('transformOrigin ')
+            ? composeTransformOriginNewLines(line.split('transformOrigin ')[1])
+            : line
+    )
+    .join('\n')
 }
 
 glob(['src/**/*.view'], {
@@ -54,7 +61,11 @@ glob(['src/**/*.view'], {
   cwd: __dirname,
 }).then(list => {
   list.forEach(file => {
-    const content = fs.readFileSync(file, 'utf-8')
-    fs.writeFileSync(file, transform(content))
+    try {
+      const content = fs.readFileSync(file, 'utf-8')
+      fs.writeFileSync(file, transform(content))
+    } catch (error) {
+      console.error(error)
+    }
   })
 })
