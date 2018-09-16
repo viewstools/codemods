@@ -22,8 +22,8 @@ node codemod-shadowRadius-to-shadowBlur.js
 node codemod-flex-to-flexGrow.js
 # v13.0.8
 node codemod-expand-transforms.js
-# v14.5.0 ??
-node codemod-use-camelCase-props
+# v15.0.0
+node codemod-use-camelCase-props.js
 ```
 
 License BSD-3-Clause
