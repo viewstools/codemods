@@ -54,7 +54,7 @@ const commentOut = logic => logic.map(l => `// ${l}`).join('\n')
 
 glob(['src/**/*.view'], {
   bashNative: ['linux'],
-  cwd: __dirname,
+  cwd: process.cwd(),
 }).then(list => {
   list.forEach(file => {
     try {

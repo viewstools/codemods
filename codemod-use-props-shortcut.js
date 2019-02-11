@@ -37,7 +37,7 @@ function transform(rtext) {
 
 glob(['src/**/*.view'], {
   bashNative: ['linux'],
-  cwd: __dirname,
+  cwd: process.cwd(),
 }).then(list => {
   list.forEach(file => {
     const content = fs.readFileSync(file, 'utf-8')
