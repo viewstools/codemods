@@ -26,6 +26,8 @@ node codemod-expand-transforms.js
 node codemod-use-camelCase-props.js
 # v16.0.0
 node codemod-system-scopes-start-with-is.js
+# v17.0.0
+node codemod-captures.js
 ```
 
 License BSD-3-Clause
