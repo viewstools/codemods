@@ -51,6 +51,7 @@ let fs = require('fs').promises
               vitem =>
                 vitem.startsWith(item) && vitem.split('/').length - 1 === depth
             )
+            .sort()
             .map(vitem => `  ${path.basename(vitem)}`)
         ),
       ].join('\n')
