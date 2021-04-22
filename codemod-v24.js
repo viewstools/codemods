@@ -25,7 +25,10 @@ function transform(rtext) {
     }
 
     if (is(DATA, line)) {
-      if (lines[index - 1].startsWith("is")) {
+      if (
+        lines[index - 1].startsWith("is") ||
+        lines[index - 1].endsWith("View")
+      ) {
         data = line;
       } else {
         next.push(l);
@@ -66,12 +69,21 @@ function isDataAssignment(line) {
     line === "onChange <" ||
     line === "onSubmit <" ||
     line.endsWith("<value") ||
+    line.endsWith("<!value") ||
+    line.endsWith("<!originalValue") ||
     line.endsWith("<originalValue") ||
+    line.endsWith("<!isValid") ||
     line.endsWith("<isValid") ||
     line.endsWith("<isValidInitial") ||
+    line.endsWith("<!isValidInitial") ||
     line.endsWith("<isInvalid") ||
+    line.endsWith("<!isInvalid") ||
     line.endsWith("<isInvalidInitial") ||
+    line.endsWith("<!isInvalidInitial") ||
     line.endsWith("<isSubmitting") ||
+    line.endsWith("<!isSubmitting") ||
+    line.endsWith("<isSelected") ||
+    line.endsWith("<!isSelected") ||
     line.endsWith("<onChange") ||
     line.endsWith("<onSubmit")
   );
