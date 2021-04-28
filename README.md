@@ -33,6 +33,12 @@ node codemod-captures.js
 # v18.0.0
 node codemod-indent.js
 # v24.0.0
+The order:
+codemod-v24.js
+codemod-v24-validate-required.js
+codemod-v24-format-out.js
+codemod-v24-format-validate-source.js
+
 chmod u+x codemod-v24-views-folder.sh
 ./codemod-v24-views-folder.sh
 ```
