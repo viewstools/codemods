@@ -5,6 +5,8 @@ Helpers to migrate your code to newer versions of Views Tools.
 Copy the files into the root of your Views project and run them with `node file.js`.
 See the diff it generates with `git diff` and make sure it does what you want :).
 
+Important: Don't run each codemod more than once!!
+
 We recommend you run them in this order:
 
 ```
@@ -30,6 +32,9 @@ node codemod-system-scopes-start-with-is.js
 node codemod-captures.js
 # v18.0.0
 node codemod-indent.js
+# v24.0.0
+chmod u+x codemod-v24-views-folder.sh
+./codemod-v24-views-folder.sh
 ```
 
 License BSD-3-Clause
