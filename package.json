@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "fast-glob": "^2.2.2",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.12.4",
     "micro-fs": "^1.0.3",
+    "prettier": "^2.2.1",
     "simple-git": "^1.132.0",
     "to-camel-case": "^1.0.0",
     "to-slug-case": "^1.0.0"
